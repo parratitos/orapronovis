@@ -27,7 +27,7 @@ export default function EventCard({ event, userId, onJoin }: EventCardProps) {
     ? supabase.storage.from('event-images').getPublicUrl(event.image_path).data.publicUrl
     : null;
 
-  const joined = userId && event.attendees?.some((attendee) => attendee.user_id === userId);
+  const joined = Boolean(userId && event.attendees?.some((attendee) => attendee.user_id === userId));
 
   return (
     <article className="card">
