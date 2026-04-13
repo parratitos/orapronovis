@@ -27,7 +27,8 @@ export default function EventCard({ event, userId, onJoin }: EventCardProps) {
     ? supabase.storage.from('event-images').getPublicUrl(event.image_path).data.publicUrl
     : null;
 
-  const joined = Boolean(userId && event.attendees?.some((attendee) => attendee.user_id === userId));
+  const joined: boolean = !!(userId && event.attendees?.some((attendee) => attendee.user_id === userId));
+  const disabled: boolean = !userId || joined;
 
   return (
     <article className="card">
@@ -46,7 +47,7 @@ export default function EventCard({ event, userId, onJoin }: EventCardProps) {
       <button
         className={joined ? 'secondary' : 'primary'}
         onClick={() => onJoin(event.id)}
-        disabled={!userId || joined}
+        disabled={disabled}
       >
         {joined ? 'Ya te has unido' : userId ? 'Unirme' : 'Inicia sesión para unirte'}
       </button>
